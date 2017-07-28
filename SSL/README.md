@@ -1,6 +1,7 @@
 ## Run command "openssl version"
 - OpenSSL 1.0.1e-fips 11 Feb 2013
-## We use openssl to create rootCA and then create intermediate certificate,then we use intermediate certificate to configure our apache server.
+## Use intermediate certificate to configure apache server
+(We use openssl to create rootCA and then create intermediate certificate,then we use intermediate certificate to configure our apache server.)
 1. Create root CA "ca.key, ca.crt"
 - RSA private key to produce ca.key(RSA Key Length: 2048). Use des3 to encrypt the ca.key again, we need to input a string as pass phrase  
 `openssl genrsa -des3 -out ca.key 2048` 
@@ -27,7 +28,8 @@ to configure "subjectAltName". v3.ext content refer Note 1).
 ```  
 4. Restart apache server and install ca.crt in client then you can visit the apache server from client, client must install the certificate ca.crt or it can not pass the authentication.
            
-## Except step 2, we can also create endpoint certificate directly to configure our apache server so that we don't need install the certificate in client and we can use ssl directly.
+## Use endpoint certificate to configure apache server
+(Except step 2, we can also create endpoint certificate directly to configure our apache server so that we don't need install the certificate in client and we can use ssl directly.)
 1. Configure "/etc/pki/tls/openssl.cnf" of openssl as below, we set `basicConstraints = CA:false`, because rootCA can not be the certificate of apache server, we set basicConstraints as C:false to create endpoint certificate.
 ```
   [ v3_ca ]
