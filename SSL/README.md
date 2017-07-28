@@ -73,10 +73,10 @@ to configure "subjectAltName". v3.ext content refer Note 1).
   #!/bin/sh
   echo "passphrase-password"
   ```
->> chmod +x /opt/bin/ssl-passphrase.sh  
->> replace "passphrase-password" with pass phrase  
->> step b), c) to avoid input pass phrase every time when restart apache server.  
->> Note: 
+> chmod +x /opt/bin/ssl-passphrase.sh  
+> replace "passphrase-password" with pass phrase  
+> step b), c) to avoid input pass phrase every time when restart apache server.  
+> Note: 
 1. file v3.ext content
   ```
   authorityKeyIdentifier=keyid,issuer
