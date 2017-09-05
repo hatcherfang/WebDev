@@ -5,7 +5,7 @@
 - start uwsgi  
 `uwsgi --ini <directory>/myUwsgi.ini`  
 - input url:`http://ip` to visit the site  
-# Reference 
+# Reference   
 - [【原创】uWSGI http和http-socket说明]("http://www.cnblogs.com/pengyusong/p/5780251.html")  
 - uwsgi中 http 和 http-socket的使用上有一些区别:  
 http: 自己会产生一个http进程(可以认为与nginx同一层)负责路由http请求给worker, http进程和worker之间使用的是uwsgi协议  
