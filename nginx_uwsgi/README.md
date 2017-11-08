@@ -5,6 +5,8 @@
 - start uwsgi  
 `uwsgi --ini <directory>/myUwsgi.ini`  
 - input url:`http://ip` to visit the site  
+- If we want to use https please refer https://linuxstory.org/deploy-lets-encrypt-ssl-certificate-with-certbot/  
+- nginx mutual authentication http://xstarcd.github.io/wiki/sysadmin/openssl_genrsa_req_sign.html
 # Reference   
 - [uWSGI http和http-socket说明](http://www.cnblogs.com/pengyusong/p/5780251.html)  
 - uwsgi中 http 和 http-socket的使用上有一些区别:  
