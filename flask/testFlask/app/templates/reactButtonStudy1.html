@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Welcome, react study</title>
+<link rel="icon" href="https://huzidaha.github.io/static/assets/img/favicon.ico">
+</head>
+<body>
+    <div class='wrapper'>
+      <button class='like-btn'>
+        <span class='like-text'>点赞</span>
+        <span>👍</span>
+      </button>
+    </div>
+<script>
+  const button = document.querySelector('.like-btn');
+  const buttonText = button.querySelector('.like-text');
+  let isLiked = false;
+  button.addEventListener('click', () => {
+    isLiked = !isLiked;
+    if (isLiked) {
+      buttonText.innerHTML = '取消';
+    } else {
+      buttonText.innerHTML = '点赞';
+    }
+  }, false)
+// ::String => ::Document
+const createDOMFromString = (domString, flag) => {
+  const div = document.createElement('div')
+  if (flag)
+    div.innerHTML = '<p>Button work</p>' + domString
+  else
+    div.innerHTML = '<p>Button not work</p>' + domString
+  return div
+}
+
+  class LikeButton {
+    constructor () {
+      this.state = { isLiked: false }
+    }
+
+    setState (state, flag) {
+      const oldEl = this.el
+      this.state = state
+      this.el = this.render(flag)
+      if (this.onStateChange) this.onStateChange(oldEl, this.el)
+    }
+
+    changeLikeText (flag) {
+      this.setState({
+        isLiked: !this.state.isLiked
+      }, flag)
+    }
+
+    render (flag) {
+      console.log(this.state.isLiked)
+      var s = this.state.isLiked ? '取消' : '点赞'
+      console.log(s)
+      this.el = createDOMFromString(`
+        <button class='like-btn'>
+          <span class='like-text'> ${this.state.isLiked ? '取消' : '点赞'}
+          </span>
+          <span>👍</span>
+        </button>
+      `, flag)
+      this.el.addEventListener('click', this.changeLikeText.bind(this, flag), false)
+      return this.el
+  }
+}
+
+  const wrapper = document.querySelector('.wrapper')
+  const likeButton1 = new LikeButton()
+  wrapper.appendChild(likeButton1.render(false))
+
+  const likeButton2 = new LikeButton()
+  wrapper.appendChild(likeButton2.render(false))
+
+  const likeButton = new LikeButton()
+  wrapper.appendChild(likeButton.render(true)) // 第一次插入 DOM 元素
+  likeButton.onStateChange = (oldEl, newEl) => {
+  wrapper.insertBefore(newEl, oldEl) // 插入新的元素
+  wrapper.removeChild(oldEl) // 删除旧的元素
+}
+
+
+</script>
+</body>
+</html>

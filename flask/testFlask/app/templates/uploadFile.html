@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Welcome upload file test</title>
+</head>
+<body>
+<script>
+  var xmlhttp;
+  if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp = new XMLHttpRequest();
+  }
+  else
+  {// code for IE6, IE5
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange = function()
+  { 
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+    {
+        //document.getElementById("mydiv").innerHTML = xmlhttp.responseText;
+        showFileList(xmlhttp.responseText);
+    }
+  }
+  xmlhttp.open("GET", "/filelist", true);
+  xmlhttp.send();
+
+  function convertUTCDateToLocalDate(date) {
+      var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+  
+      var offset = date.getTimezoneOffset() / 60;
+      var hours = date.getHours();
+      //alert(offset);
+  
+      //newDate.setHours(hours - offset);
+      newDate.setHours(hours);
+  
+      return newDate;   
+  }
+
+
+  function showFileList(fileInfo)
+  {
+    //document.getElementById("tflist").innerHTML = xmlhttp.responseText;
+    var fileNameList = [];
+    if (fileInfo)
+    {
+      var fileNameList = fileInfo.split('*');
+    }
+    var sFiles = "";
+    for(index in fileNameList)
+    {
+      fileName_mTime = fileNameList[index].split('|');
+      var date = convertUTCDateToLocalDate(new Date(parseFloat(fileName_mTime[1])*1000));
+      
+      sFiles = sFiles + '<tr>' + '<td>' + '<a href="/download/' + fileName_mTime[0] + '">' + fileName_mTime[0] + '</a>' + '</td>' + '<td>' + date.toLocaleString() + '</td>' + '</tr>';
+    }
+    
+    document.getElementById("tflist").innerHTML = '<table cellpadding="0" cellspacing="5">' + 
+                                                     '<thead align="left">' +
+                                                       '<tr>' + 
+                                                         '<th>' + 'FileName' + '</th>' +
+                                                         '<th>' + 'UploadTime' + '</th>' +
+                                                       '</tr>' +
+                                                     '</thead>' +
+                                                     '<tbody>' +
+                                                        sFiles +
+                                                     '</tbody>' +
+                                                   '</table>';
+  }
+</script>
+
+<p id="tflist"></p>
+<form id="form1" action="/uploadFile.html" method=post enctype=multipart/form-data>
+  <div>
+      <input type=file name=myfile>
+      <input type=submit value=Upload>
+  </div>
+</form>
+
+</body>
+</html>

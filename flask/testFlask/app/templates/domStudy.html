@@ -1,0 +1,161 @@
+<!--refer:https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345011220342fa37b4a62ea4972bf9e6da10edc2a85000-->
+<html>
+<head>
+<title>DOM study</title>
+</head>
+<body>
+<p id="p1"> This is the p tag
+<dl id="drink-menu" style="border:solid 1px #ccc;padding:6px;">
+    <dt>摩卡</dt>
+    <dd>热摩卡咖啡</dd>
+    <dt>酸奶</dt>
+    <dd>北京老酸奶</dd>
+    <dt>果汁</dt>
+    <dd>鲜榨苹果汁</dd>
+</dl>
+</p>
+<script>
+// browser object
+/*window对象不但充当全局作用域，而且表示浏览器窗口。
+window对象有innerWidth和innerHeight属性，可以获取浏览器窗口的内部宽度和高度。内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。*/
+var s = "window width " + window.innerWidth + " window height " + window.innerHeight;
+//alert(s);
+/*location
+
+location对象表示当前页面的URL信息。例如，一个完整的URL：
+http://www.example.com:8080/path/index.html?a=1&b=2#TOP*/
+/*
+location.protocol; // 'http'
+location.host; // 'www.example.com'
+location.port; // '8080'
+location.pathname; // '/path/index.html'
+location.search; // '?a=1&b=2'
+location.hash; // 'TOP'
+*/
+//alert("url is: " + location.href);
+//location.assign('/jsTest.html');
+// DOM operation
+/*
+由于HTML文档被浏览器解析后就是一棵DOM树，要改变HTML的结构，就需要通过JavaScript来操作DOM。
+始终记住DOM是一个树形结构。操作一个DOM节点实际上就是这么几个操作：
+更新：更新该DOM节点的内容，相当于更新了该DOM节点表示的HTML的内容；
+遍历：遍历该DOM节点下的子节点，以便进行进一步操作；
+添加：在该DOM节点下新增一个子节点，相当于动态增加了一个HTML节点；
+删除：将该节点从HTML中删除，相当于删掉了该DOM节点的内容以及它包含的所有子节点。
+在操作一个DOM节点前，我们需要通过各种方式先拿到这个DOM节点。最常用的方法是document.getElementById()和document.getElementsByTagName()，以及CSS选择器document.getElementsByClassName()。
+由于ID在HTML文档中是唯一的，所以document.getElementById()可以直接定位唯一的一个DOM节点。document.getElementsByTagName()和document.getElementsByClassName()总是返回一组DOM节点。要精确地选择DOM，可以先定位父节点，再从父节点开始选择，以缩小范围。
+*/
+document.title='change title by DOM';
+var p1 = document.getElementById("p1");
+//alert(p1.innerHTML);
+//alert(p1.tagName);
+var dttag = document.getElementById("drink-menu").getElementsByTagName('dt');
+//alert(document.getElementById("drink-menu").children);
+var i = 0;
+var dt = '';
+for(i=0; i<dttag.length; i++)
+{
+  dt = dt + ' ' + dttag[i].innerHTML;
+}
+//alert(dt);
+</script>
+<hr>
+<h3>update DOM</h3>
+<!--update DOM-->
+<div id="test-div">
+<div class="c-red">
+    <p id="test-p">JavaScript</p>
+    <p>Java</p>
+  </div>
+  <div class="c-red c-green">
+    <p>Python</p>
+    <p>Ruby</p>
+    <p>Swift</p>
+  </div>
+  <div class="c-green">
+    <p>Scheme</p>
+    <p>Haskell</p>
+  </div>
+</div>
+<script>
+   var js = document.getElementById("test-p"); 
+   js.innerHTML='<p id="test-p"><span style="color:red">change title by DOM</span></p>';
+   // change style
+   js.style.color = '#ff0000';
+   js.style.fontSize = '20px';
+   js.style.paddingTop = '2em';
+   //alert(js.innerHTML);
+   var lan = document.getElementsByClassName("c-red c-green")[0].children;
+   var strlan = '';
+   var i = 0;
+   for (i=0; i<lan.length; i++){
+       strlan = strlan + ' ' + lan[i].innerText;
+   }
+   //alert(strlan);
+   var cgreen = document.getElementsByClassName("c-green")[0].lastElementChild;
+   //alert(cgreen.innerText);
+   for (i=0; i<cgreen.length; i++){
+      //alert(cgreen[i].innerText);
+   }
+</script>
+<hr>
+<h3>insert DOM</h3>
+<!--insert DOM-->
+<!-- HTML -->
+<p id="js">JavaScript</p>
+<div id="list">
+    <p id="java">Java</p>
+    <p id="python">Python</p>
+    <p id="scheme">Scheme</p>
+</div>
+<script>
+    // insert exists child node
+    var js = document.getElementById("js");
+    var list = document.getElementById("list");
+    //list.appendChild(js);
+    js.innerHTML = '<b>' + js.innerHTML + '</b>';
+    list.appendChild(js);
+    // create a new child node and insert it
+    var list = document.getElementById("list");
+    var haskell = document.createElement('p');
+    haskell.id = "haskell";
+    haskell.innerHTML = '<b>Haskell</b>';
+    list.appendChild(haskell);
+    // dynamic insert style to 
+    // make all the p tag to be blue color
+    var d = document.createElement('style');
+    d.setAttribute('type', 'text/css');
+    d.innerHTML = 'p {color:blue}';
+    document.getElementsByTagName('head')[0].appendChild(d);
+    // use insertBefore to insert a node before Python
+    var list = document.getElementById("list");
+    var ref = document.getElementById("python");
+    var haskell = document.createElement("haskell");
+    haskell.innerHTML = "<b>Haskell</b>";
+    list.insertBefore(haskell, ref);
+</script>
+<!--delete DOM
+把与Web开发技术不相关的节点删掉：-->
+<!-- HTML结构 -->
+<ul id="test-list">
+    <li>JavaScript</li>
+    <li>Swift</li>
+    <li>HTML</li>
+    <li>ANSI C</li>
+    <li>CSS</li>
+    <li>DirectX</li>
+</ul>
+<script>
+// method 1:
+var ul = document.getElementById("test-list");
+alert(ul.children.length)
+var li = ul.getElementsByTagName("li"); 
+li[1].parentElement.removeChild(li[1]).innerHTML;
+//var li = ul.getElementsByTagName("li"); 
+li[2].parentElement.removeChild(li[2]).innerHTML;
+//var li = ul.getElementsByTagName("li"); 
+li[3].parentElement.removeChild(li[3]).innerHTML;
+//li.removeChild(li[1]);
+</script>
+</body>
+</html>
